@@ -86,7 +86,7 @@ public class DetonatorBurstEmitter : DetonatorComponent
 
 		_psMain.loop = false;
 		_psMain.startSpeed = 0f;
-		_psMain.randomizeRotationDirection = .5f;
+		_psMain.flipRotation = .5f;
 
 		_psEmission.rateOverTime = 0;
 		_psEmission.SetBursts(new ParticleSystem.Burst[] { new ParticleSystem.Burst(0.0f, 1, 1)});   
