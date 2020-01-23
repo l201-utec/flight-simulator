@@ -54,7 +54,7 @@ Example: Let's say you were working on issue `#2` and you finished your changes.
 
 ## Collaborators 
 
-- Diego Canez ([@dgcnz](https://github.com/dgcnz)
+- Diego Canez ([@dgcnz](https://github.com/dgcnz))
 - Facundo Garcia
 - Nelson Soberon
 
