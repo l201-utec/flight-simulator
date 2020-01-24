@@ -18,8 +18,9 @@ public class BulletCollision : MonoBehaviour
         if (collision.gameObject.tag == "LandTile")
         {
             //If the GameObject has the same tag as specified, output this message in the console
-            Debug.Log("Do something else here");
+            //Debug.Log("Do something else here");
             Destroy(gameObject);
         }
+        Destroy(gameObject);
     }
 }
