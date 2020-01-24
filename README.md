@@ -21,7 +21,9 @@ For collaboration to work, the following plugins should be installed and used.
 - Get Unity Standard Assets (2017) from the Asset Store in your Editor. Don't worry, it'll be alright :^)
 
 
-*Guideline #1*: Do **not** commit to the `master` branch.
+---
+
+**_Guideline #1_**: Do **not** commit to the `master` branch.
 
 Instead, create a branch from the `dev` branch addressing an issue. Use this format `fix/{number}`. 
 
@@ -29,7 +31,7 @@ Example: Let's say you're working on issue `#2`.
 1. `git checkout dev`
 2. `git checkout -b fix/2`
 
-*Guideline #2*: If you want to develop something (or notice that something has to be done), be it adding some feature or fixing a bug, *create an issue*, please.
+**_Guideline #2_**: If you want to develop something (or notice that something has to be done), be it adding some feature or fixing a bug, *create an issue*, please.
 
 Steps:
 
@@ -42,7 +44,7 @@ Steps:
 7. (Optional) If *you* want to work on this issue, assign yourself on *Assignees*.
 8. Submit new issue.
 
-*Guideline #3*: If you finish an issue, **do not merge it without authorization**. Instead, push your branch to remote and make a pull request.
+**_Guideline #3_**: If you finish an issue, **do not merge it without authorization**. Instead, push your branch to remote and make a pull request.
 
 Example: Let's say you were working on issue `#2` and you finished your changes.
 
