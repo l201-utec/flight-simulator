@@ -6,15 +6,15 @@ A flight simulator for 2020-1's Open Day.
 
 - Unity 2019.2.8f1
 
-## Work guidelines
+## Work guidelines (IMPORTANT)
 
 For collaboration to work, the following plugins should be installed and used.
 
 - Get Github For Unity plugin at [this link](https://unity.github.com/) or install it on the Unity Asset Store in your Editor.
     - It is recommended to work with the Command Line it provides, since it will save tons of weird crashes. You can open one terminal instance from `Window -> Github Command Line`.
     - To start, checkout to the `dev` branch.
+- Get Unity Standard Assets (2017) from the Asset Store in your Editor. Don't worry, it'll be alright :^)
 
-**Important**
 
 *Guideline #1*: Do **not** commit to the `master` branch.
 
@@ -55,8 +55,8 @@ Example: Let's say you were working on issue `#2` and you finished your changes.
 ## Collaborators 
 
 - Diego Canez ([@dgcnz](https://github.com/dgcnz))
-- Facundo Garcia
-- Nelson Soberon
+- Facundo Garcia ([@fgarciacardenas](https://github.com/fgarciacardenas))
+- Nelson Soberon ([@Nelsonxxji](https://github.com/Nelsonxxji))
 
 
 *Names are alphabetically ordered, they don't reflect the quantity of work each member has done.*
