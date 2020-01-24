@@ -2,6 +2,11 @@
 
 A flight simulator for 2020-1's Open Day.
 
+The `master` branch will only be used for full releases, for active development checkout to the `dev` branch.
+
+Suggestions are welcomed!
+
+
 ## Dependencies
 
 - Unity 2019.2.8f1
