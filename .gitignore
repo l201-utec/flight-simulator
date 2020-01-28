@@ -51,3 +51,8 @@ crashlytics-build.properties
 # Editor
 
 .vscode/
+
+Assets/Standard\ Assets
+Assets/Standard\ Assets.meta
+Assets/Detonator\ Explosion\ Framework
+Assets/Detonator\ Explosion\ Framework.meta
