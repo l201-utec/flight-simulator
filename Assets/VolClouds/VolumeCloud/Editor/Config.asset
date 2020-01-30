@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 165f864f325ab6a48beaeff3cfed3c43, type: 3}
+  m_Name: Config
+  m_EditorClassIdentifier: 
+  testGenerator:
+    perlinNoise: {fileID: 2800000, guid: b04cd8b516e8e0e4e857832705e735bd, type: 3}
+    brightness: 20
+    scale: 1
+    perlin:
+      period: 8
+      octaves: 4
+  first3DTexGenerator:
+    texResolution: 128
+    perlinOctaves: 3
+    channel1PerlinPeriod: 16
+    channel2WorleyPeriod: 16
+    channel3WorleyPeriod: 32
+    channel4WorleyPeriod: 64
+  first3DTexSaveName: First3DTexAlter
+  second3DTexGenerator:
+    texResolution: 32
+    channel1WorleyFreq: 4
+    channel2WorleyFreq: 8
+    channel3WorleyFreq: 16
+  second3DTexSaveName: Second3DTexAlt
