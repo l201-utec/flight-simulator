@@ -13,6 +13,7 @@ public class SwitchPerspective : MonoBehaviour
         cam1.enabled = true;
         cam2.enabled = false;
         cam2.GetComponent<AudioListener>().enabled = !cam2.GetComponent<AudioListener>().enabled;
+        (cam2.GetComponent("SmoothMouseLook") as MonoBehaviour).enabled = false;
     }
 
     // Update is called once per frame
@@ -23,6 +24,7 @@ public class SwitchPerspective : MonoBehaviour
             cam1.GetComponent<AudioListener>().enabled = !cam1.GetComponent<AudioListener>().enabled;
             cam2.enabled = !cam2.enabled;
             cam2.GetComponent<AudioListener>().enabled = !cam2.GetComponent<AudioListener>().enabled;
+            (cam2.GetComponent("SmoothMouseLook") as MonoBehaviour).enabled = !((cam2.GetComponent("SmoothMouseLook") as MonoBehaviour).enabled);
         }
     }
 }
