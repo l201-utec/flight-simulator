@@ -16,25 +16,25 @@ MonoBehaviour:
   weatherTexSize: 50000
   cloudHeightRange: {x: -1500, y: 5000}
   baseTexture: {fileID: 11700000, guid: 3ed67598438ec1e4dba28385e35a557b, type: 2}
-  baseTile: 1.46
+  baseTile: 2.11
   heightDensityMap: {fileID: 2800000, guid: a27c79a96e56b794a9bcb99b3b2df92b, type: 3}
   overallSize: 50000
   topOffset: 0
   detailTexture: {fileID: 11700000, guid: c978a1d1fdb99d54eb7910eb562fcbd7, type: 2}
-  detailTile: 36
-  detailStrength: 0.106
+  detailTile: 48.1
+  detailStrength: 0.128
   curlNoise: {fileID: 2800000, guid: 864afbdb4b1b36c42be5cac8f2556237, type: 2}
-  curlTile: 0.01
+  curlTile: 0.001
   curlStrength: 5
   overallDensity: 0.653
   cloudTypeModifier: 0.832
   cloudCoverageModifier: 0.702
   windDirection: {x: 1, y: 1}
   windSpeed: 0
-  ambientColor: {r: 0.29525304, g: 0.29626313, b: 0.31617647, a: 0.02745098}
-  scatteringCoefficient: 0.2
-  extinctionCoefficient: 0.21
-  multiScatteringScattering: 0.5
+  ambientColor: {r: 0.1254902, g: 0.1254902, b: 0.1254902, a: 0.02745098}
+  scatteringCoefficient: 0.1
+  extinctionCoefficient: 0.1
+  multiScatteringScattering: 0.505
   multiScatteringExtinction: 0.5
   multiScatteringEC: 0.5
   silverSpread: 0.1
