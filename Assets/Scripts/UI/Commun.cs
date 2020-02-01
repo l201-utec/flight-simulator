@@ -52,13 +52,13 @@ public class Commun : MonoBehaviour
 
     public void Zeros()
     {
-        message_send = "0,0,0,";
+        message_send = "0$0$0\n";
         //Debug.Log("RECIEVED ZEROS");
     }
 
     public void Angles()
     {
-        message_send = angleZ.text  + "," + angleX.text   + "," + angleY.text  + ",";
+        message_send = angleX.text  + "$" + angleY.text   + "$" + angleZ.text  + "\n";
         //Debug.Log("RECIEVED ANGLES");
     }
     
