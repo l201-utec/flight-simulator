@@ -8,15 +8,6 @@ public class Menu : MonoBehaviour {
     public GameObject canvas;
     public bool gamePaused;
 
-    public GameObject plane;
-
-    private CollisionDetect rest;
-
-    private void Start()
-    {
-        
-    }
-
     void Update () {
 
         if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown("joystick button 6"))
@@ -45,8 +36,7 @@ public class Menu : MonoBehaviour {
         canvas.SetActive(true);
         gamePaused = true;
 
-        plane.GetComponent<AudioSource>().enabled = false;
-
+        AudioListener.volume = 0f;
     }
 
     public void Resume()
@@ -55,24 +45,25 @@ public class Menu : MonoBehaviour {
         canvas.SetActive(false);
         gamePaused = false;
 
-        plane.GetComponent<AudioSource>().enabled = true;
+        AudioListener.volume = 1f;
     }
 
     public void Restart()
     {
-        rest = plane.GetComponent<CollisionDetect>();
-
-        rest.Restarting();
-
         Time.timeScale = 1f;
+        AudioListener.volume = 1f;
         canvas.SetActive(false);
         gamePaused = false;
-
+        SceneManager.LoadScene("Gameplay");
     }
     
     public void MainMenu()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        Time.timeScale = 1f;
+        AudioListener.volume = 1f;
+        canvas.SetActive(false);
+        gamePaused = false;
+        SceneManager.LoadScene("MainMenu");
 
     }
     public void QuitGame()

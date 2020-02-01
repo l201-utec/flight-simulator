@@ -21,50 +21,11 @@ public class Indicators : MonoBehaviour {
     public Text vecy;
     public Text vecz;
 
-
-    private Force force;
-    private CollisionDetect collision;
-
     public bool destroy;
-
-    //private Dictionary<float, string> dic = new Dictionary<float, string>() { { 0, "N" }, { 90, "E" }, { 180, "S" }, { 270, "O" } };
-
-    private void Start()
-    {
-        force = plane.GetComponent <Force> ();
-        collision = plane.GetComponent<CollisionDetect>();
-                
-    }
 
     void Update () {
 
-        destroy = collision.isDestroyed;
-
-        float or = plane.transform.eulerAngles.y;
-
-        speed.text = (force.thrust * 1.9438).ToString("0");
-        altitude.text = (plane.transform.position.y * 32.808 <= 9999 ? plane.transform.position.y * 3.2808 * 10 : 9999).ToString("0");
-        orientation.text = or.ToString("0");
-
-        if (or >= 1 && or < 90)
-        {
-            compass.text = "N";
-        }
-
-        else if (or >= 90 && or < 180)
-        {
-            compass.text = "E";
-        }
-        
-        else if (or >= 180 && or < 270)
-        {
-            compass.text = "S";
-        }
-
-        else if (or >= 270 && or <= 360)
-        {
-            compass.text = "W";
-        }
+        destroy = (plane == null);
 
         if (destroy)
         {
@@ -77,6 +38,32 @@ public class Indicators : MonoBehaviour {
         }
         else if (!destroy)
         {
+            float or = plane.transform.eulerAngles.y;
+
+            speed.text = plane.GetComponent<Rigidbody>().velocity.magnitude.ToString("0");
+            altitude.text = (plane.transform.position.y * 32.808 <= 9999 ? plane.transform.position.y * 3.2808 * 10 : 9999).ToString("0");
+            orientation.text = or.ToString("0");
+
+            if (or >= 1 && or < 90)
+            {
+                compass.text = "N";
+            }
+
+            else if (or >= 90 && or < 180)
+            {
+                compass.text = "E";
+            }
+
+            else if (or >= 180 && or < 270)
+            {
+                compass.text = "S";
+            }
+
+            else if (or >= 270 && or <= 360)
+            {
+                compass.text = "W";
+            }
+
             anglex.text = plane.transform.eulerAngles.x.ToString("0.00");
             angley.text = plane.transform.eulerAngles.y.ToString("0.00");
             anglez.text = plane.transform.eulerAngles.z.ToString("0.00");

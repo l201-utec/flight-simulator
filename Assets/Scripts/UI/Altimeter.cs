@@ -14,10 +14,10 @@ public class Altimeter : MonoBehaviour {
 
     void Update()
     {
-        feet = plane.transform.position.y * 32.808;
-
-        angle = 360 * (float)feet / 1000;
-
-        transform.rotation = Quaternion.AngleAxis(-(angle-setAngle), Vector3.forward);
+        if(plane != null) {
+            feet = plane.transform.position.y * 32.808;
+            angle = 360 * (float)feet / 1000;
+            transform.rotation = Quaternion.AngleAxis(-(angle - setAngle), Vector3.forward);
+        }
     }
 }
