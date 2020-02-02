@@ -18,7 +18,8 @@ public class DamageDetection : MonoBehaviour
             collisionCount++;
 
             // Debug.LogWarning($"Counts: {collisionCount}");
-            if (collisionCount >= 3)
+
+            if (collisionCount >= 3 || collision.gameObject.CompareTag("LandTile"))
             {
                 Instantiate(explosion, colObj.transform.position, colObj.transform.rotation);
                 Destroy(gameObject);
