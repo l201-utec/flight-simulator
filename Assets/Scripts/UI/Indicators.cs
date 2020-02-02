@@ -17,9 +17,9 @@ public class Indicators : MonoBehaviour {
     public Text angley;
     public Text anglez;
 
-    public Text vecx;
-    public Text vecy;
-    public Text vecz;
+    public Text health;
+    public Text barrier;
+    public Text ammo;
 
     public bool destroy;
 
@@ -32,6 +32,9 @@ public class Indicators : MonoBehaviour {
             anglex.text = 0.ToString("0.00");
             angley.text = 0.ToString("0.00");
             anglez.text = 0.ToString("0.00");
+
+            health.text = 0.ToString("0.00");
+            barrier.text = 0.ToString("0.00");
 
             gameObject.SendMessage("Zeros");
 
@@ -69,8 +72,12 @@ public class Indicators : MonoBehaviour {
             anglez.text = plane.transform.eulerAngles.z.ToString("0.00");
 
             gameObject.SendMessage("Angles");
-        }
-        
-    }
 
+            int hitCounter = GameObject.Find("AircraftJet").GetComponent<DamageDetection>().collisionCount;
+            health.text = (100 - 33 * hitCounter).ToString("0");
+
+            int ammoCounter = GameObject.Find("BulletInstantiator").GetComponent<FireGun>().remainingBullets;
+            ammo.text = ammoCounter.ToString("0");
+        }
+    }
 }

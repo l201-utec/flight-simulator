@@ -17,7 +17,7 @@ public class DamageDetection : MonoBehaviour
             planeSmoke.transform.parent = transform;
             collisionCount++;
 
-            Debug.LogWarning($"Counts: {collisionCount}");
+            // Debug.LogWarning($"Counts: {collisionCount}");
             if (collisionCount >= 3)
             {
                 Instantiate(explosion, colObj.transform.position, colObj.transform.rotation);
