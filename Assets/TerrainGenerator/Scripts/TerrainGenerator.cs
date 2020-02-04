@@ -24,8 +24,8 @@ public class TerrainGenerator : MonoBehaviour {
 	float meshWorldSize;
 	int chunksVisibleInViewDst;
 
-	Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
-	List<TerrainChunk> visibleTerrainChunks = new List<TerrainChunk>();
+	public Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
+	public List<TerrainChunk> visibleTerrainChunks = new List<TerrainChunk>();
 
 	void Start() {
 
@@ -63,6 +63,7 @@ public class TerrainGenerator : MonoBehaviour {
 			
 		int currentChunkCoordX = Mathf.RoundToInt (viewerPosition.x / meshWorldSize);
 		int currentChunkCoordY = Mathf.RoundToInt (viewerPosition.y / meshWorldSize);
+
 
 		for (int yOffset = -chunksVisibleInViewDst; yOffset <= chunksVisibleInViewDst; yOffset++) {
 			for (int xOffset = -chunksVisibleInViewDst; xOffset <= chunksVisibleInViewDst; xOffset++) {

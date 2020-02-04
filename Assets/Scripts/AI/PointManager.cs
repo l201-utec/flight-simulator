@@ -11,15 +11,22 @@ public class PointManager : MonoBehaviour
     public int lenght_y;
     public int lenght_z;
 
+    public GameObject target;
+
 
     void Start()
     {
-        
+        if (target == null)
+        {
+            target = GameObject.FindGameObjectWithTag("Player");
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+        Vector3 center = target.transform.position;
+
+
         
     }
 }
