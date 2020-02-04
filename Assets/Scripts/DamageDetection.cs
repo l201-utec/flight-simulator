@@ -14,12 +14,12 @@ public class DamageDetection : MonoBehaviour
         {
             var colObj = contact.thisCollider;
             GameObject planeSmoke = Instantiate(smoke, colObj.transform.position, colObj.transform.rotation);
-            planeSmoke.transform.parent = transform;
+            planeSmoke.transform.parent = GameObject.Find("AircraftJet").transform;
             collisionCount++;
 
             // Debug.LogWarning($"Counts: {collisionCount}");
 
-            if (collisionCount >= 3 || collision.gameObject.CompareTag("LandTile"))
+            if (collisionCount >= 3 || (collision.gameObject.name == "Terrain Chunk"))
             {
                 Instantiate(explosion, colObj.transform.position, colObj.transform.rotation);
                 Destroy(gameObject);
