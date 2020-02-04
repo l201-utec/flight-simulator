@@ -17,8 +17,9 @@ public class DamageDetection : MonoBehaviour
             planeSmoke.transform.parent = transform;
             collisionCount++;
 
-            Debug.LogWarning($"Counts: {collisionCount}");
-            if (collisionCount >= 3)
+            // Debug.LogWarning($"Counts: {collisionCount}");
+
+            if (collisionCount >= 3 || collision.gameObject.CompareTag("LandTile"))
             {
                 Instantiate(explosion, colObj.transform.position, colObj.transform.rotation);
                 Destroy(gameObject);
