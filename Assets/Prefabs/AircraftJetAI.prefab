@@ -26388,7 +26388,7 @@ Transform:
   m_GameObject: {fileID: 867754781744163525}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 867754781015909563}
   - {fileID: 867754781116865534}
@@ -26603,6 +26603,7 @@ MonoBehaviour:
   targetObj: {fileID: 0}
   targetTracker: {fileID: 146370516}
   targetTracker2: {fileID: 4322112116367893680}
+  distanceBetween: 0
 --- !u!1 &867754781876817234
 GameObject:
   m_ObjectHideFlags: 0
