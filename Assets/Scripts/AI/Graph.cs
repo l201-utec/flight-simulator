@@ -6,9 +6,26 @@ using UnityEngine.Assertions;
 
 public static class Vector3Extensions
 {
-    public static Vector3 Round(this Vector3 aVec)
+    public static Vector3 Round(this Vector3 v)
     {
-        return new Vector3(Mathf.Round(aVec.x), Mathf.Round(aVec.y), Mathf.Round(aVec.z));
+        return new Vector3(Mathf.Round(v.x), Mathf.Round(v.y), Mathf.Round(v.z));
+    }
+    public static Vector3 Floor(this Vector3 v)
+    {
+        return new Vector3(Mathf.Floor(v.x), Mathf.Floor(v.y), Mathf.Floor(v.z));
+    }
+    public static Vector2 Flatten(this Vector3 v)
+    {
+        return new Vector2(v.x, v.z);
+    }
+}
+
+
+public static class Vector2Extensions
+{
+    public static Vector3 UnFlatten(this Vector2 v)
+    {
+        return new Vector3(v.x, 0, v.y);
     }
 }
 
@@ -47,31 +64,27 @@ public class Graph : MonoBehaviour
         //Debug.Log(terrainGenerator.viewer.position.ToString("F4"));
     }
 
-    float getHeightTerrain2(Vector3 worldPosition, Vector2 coord)
-    {
-
-        Vector3 chunkWorldPosition = GetWorldPositionFromChunkIndex(
-                                            UnFlattenVector2(coord));
-        Vector3 relativePosition = worldPosition - chunkWorldPosition;
-
-        int i  = Mathf.FloorToInt(relativePosition.x * meshSettings.numVertsPerLine/meshSettings.meshWorldSize);
-        int j  = Mathf.FloorToInt(relativePosition.z * meshSettings.numVertsPerLine/meshSettings.meshWorldSize);
-
-        return GetTerrainChunk(worldPosition).heightMap.values[i, j];
-    }
-
 
     float getHeightTerrain(Vector3 worldPosition)
     {
 
-        Vector3 index = GetChunkIndex(worldPosition);
-        Vector3 chunkPosition = index * meshSettings.meshWorldSize;
-        Vector3 relativePosition = worldPosition - chunkPosition;
+        Vector3 worldChunkPosition = GetWorldPositionFromChunkIndex(
+                                            GetChunkIndex(worldPosition));
+        Vector3 relativePosition = worldPosition + 
+                                (new Vector3(1, 0, 1) * meshSettings.meshWorldSize/2) - 
+                                worldChunkPosition;
 
-        int i  = Mathf.FloorToInt(relativePosition.x * meshSettings.numVertsPerLine/meshSettings.meshWorldSize);
-        int j  = Mathf.FloorToInt(relativePosition.z * meshSettings.numVertsPerLine/meshSettings.meshWorldSize);
+        int length = meshSettings.numVertsPerLine;
 
-        return GetTerrainChunk(worldPosition).heightMap.values[i, j];
+        int i  = Mathf.FloorToInt(relativePosition.x * length/meshSettings.meshWorldSize);
+        int j  = length - Mathf.FloorToInt(relativePosition.z * length/meshSettings.meshWorldSize) - 1;
+        
+        if (i < 0 || i >= length || j < 0 || j >= length)
+        {
+            Debug.LogError("OutBounds: (" + i.ToString() + ", " + j.ToString() + ")");
+        }
+        return GetTerrainChunk(worldPosition).heightMap
+            .values[i, j];
     }
 
     bool CheckIfWalkable(Vector3 worldPosition)
@@ -97,29 +110,20 @@ public class Graph : MonoBehaviour
         bool walkable = CheckIfWalkable(position);
         return new Node(position, walkable);
     }
-    Vector3 GetChunkIndex(Vector3 position)
+    Vector3 GetChunkIndex(Vector3 worldPosition)
     {
         // Since the worldPosition of indexes are the center of the chunk, we need to subtract
         // half of the diameter of that chunk
         
         Vector3 halfOffset = (meshSettings.meshWorldSize / 2) * new Vector3(1, 0, 1);
 
-        return ((position - halfOffset) / meshSettings.meshWorldSize).Round();
+        return ((worldPosition + halfOffset) / meshSettings.meshWorldSize).Floor();
     }
 
-    Vector2 FlattenVector3(Vector3 v)
-    {
-        return new Vector2(v.x, v.z);
-    }
-
-    Vector3 UnFlattenVector2(Vector2 v)
-    {
-        return new Vector3(v.x, 0, v.y);
-    }
 
     TerrainChunk GetTerrainChunk(Vector3 worldPosition)
     {
-        Vector2 terrainChunkIndex = FlattenVector3(GetChunkIndex(worldPosition));
+        Vector2 terrainChunkIndex = GetChunkIndex(worldPosition).Flatten();
 
         if (terrainGenerator.terrainChunkDictionary.ContainsKey(terrainChunkIndex))
         {
@@ -132,9 +136,9 @@ public class Graph : MonoBehaviour
         }
     }
 
-    Vector3 GetWorldPositionFromChunkIndex(Vector2 chunkIndex)
+    Vector3 GetWorldPositionFromChunkIndex(Vector3 chunkIndex)
     {
-        return new Vector3(chunkIndex.x * meshSettings.meshWorldSize, 0, chunkIndex.y * meshSettings.meshWorldSize);
+        return chunkIndex * meshSettings.meshWorldSize;
     }
 
     void LogSummaryTerrainChunk(TerrainChunk tc)
@@ -142,7 +146,7 @@ public class Graph : MonoBehaviour
         // Summarize properties of terrain chunk
         Debug.Log("------------ SUMMARY -------------");
         Debug.Log("INDEX: " + tc.coord.ToString());
-        Debug.Log("WORLD: " + GetWorldPositionFromChunkIndex(tc.coord).ToString());
+        Debug.Log("WORLD: " + GetWorldPositionFromChunkIndex(tc.coord.UnFlatten()).ToString());
         Debug.Log("----------------------------------");
     }
 
@@ -183,14 +187,13 @@ public class Graph : MonoBehaviour
             */
 
             // draw position
-            LogAllVisibleTerrainChunks(terrainGenerator.visibleTerrainChunks);
+            // LogAllVisibleTerrainChunks(terrainGenerator.visibleTerrainChunks);
 
             foreach(TerrainChunk tc_ in terrainGenerator.visibleTerrainChunks)
             {
-                LogSummaryTerrainChunk(tc_);
+                // LogSummaryTerrainChunk(tc_);
 
-                Vector3 center_ = GetWorldPositionFromChunkIndex(
-                                            UnFlattenVector2(tc_.coord));
+                Vector3 center_ = GetWorldPositionFromChunkIndex(tc_.coord.UnFlatten());
                 
                 // Draw ChunkIndex Tags on Gizmos 
                 Handles.Label(center_, tc_.coord.ToString());
@@ -199,36 +202,31 @@ public class Graph : MonoBehaviour
                 Gizmos.DrawWireCube(center_, new Vector3(10, 500, 10));
 
 
-                int start = -nodesPerChunkEdge/2; 
-                int end = nodesPerChunkEdge/2;
 
-                for (int xi = start; xi < end; ++xi) 
+                for (int xi = 0; xi < nodesPerChunkEdge; ++xi) 
                 {
-                    for (int yi = start; yi < end; ++yi) 
+                    for (int yi = 0; yi < nodesPerChunkEdge; ++yi) 
                     {
-                        for (int zi = start; zi < end; ++zi) 
+                        for (int zi = 0; zi < nodesPerChunkEdge; ++zi) 
                         {
                             Vector3 nodePosition = center_ + nodeSeparation * 
-                                                    new Vector3(xi, yi, zi);
+                                                new Vector3(xi - nodesPerChunkEdge/2,
+                                                            yi, 
+                                                            zi - nodesPerChunkEdge/2);
+                            nodePosition = nodePosition.Floor();
                             
                             Vector2 a = tc_.coord;
-                            Vector2 b = FlattenVector3(GetChunkIndex(nodePosition));
+                            Vector2 b = GetChunkIndex(nodePosition).Flatten();
                             
                             if (a != b)
                             {
-                                Debug.LogError(a.ToString() + " != " + b.ToString() + " on nodePosition: " + FlattenVector3(nodePosition).ToString());
+                                Debug.LogError(a.ToString() + " != " + b.ToString() + " on nodePosition: " + nodePosition.ToString());
                             }
 
 
-                            // bool walkable = CheckIfWalkable(nodePosition);
-                            //bool walkable = false;
-                            // if (nodePosition.y > getHeightTerrain2(nodePosition, tc_.coord))
-                            //     walkable = true;
-                            // Gizmos.color = (walkable) ? Color.green: Color.red;
-                            // if (!walkable)
-                            // {
-                            //     Gizmos.DrawSphere(nodePosition, 10);
-                            // }
+                            bool walkable = CheckIfWalkable(nodePosition);
+                            Gizmos.color = (walkable) ? Color.green: Color.red;
+                            Gizmos.DrawSphere(nodePosition, 5);
                             
                             
                         }
