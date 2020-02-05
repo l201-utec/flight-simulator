@@ -75,7 +75,7 @@ public class Indicators : MonoBehaviour {
             gameObject.SendMessage("Angles");
 
             float hitCounter = GameObject.Find("AircraftJet").GetComponent<DamageDetection>().collisionCount;
-            HealthBar.transform.localScale = Vector3.Scale(transform.localScale, new Vector3(1f, 1f - 0.33f * hitCounter, 1f));
+            HealthBar.transform.localScale = new Vector3(1f, 1f - 0.33f * hitCounter, 1f);
             health.text = (100 - 33 * (int)hitCounter).ToString("0");
 
             int ammoCounter = GameObject.Find("BulletInstantiator").GetComponent<FireGun>().remainingBullets;
