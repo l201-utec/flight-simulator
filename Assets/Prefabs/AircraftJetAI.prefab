@@ -562,63 +562,6 @@ Transform:
   m_Father: {fileID: 867754781716606421}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &867754780432387993
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 867754780432387992}
-  - component: {fileID: 867754780432387994}
-  - component: {fileID: 867754780432387995}
-  m_Layer: 8
-  m_Name: ChaseSensor
-  m_TagString: ChaseSensor
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &867754780432387992
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 867754780432387993}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
-  m_Children: []
-  m_Father: {fileID: 867754781015909563}
-  m_RootOrder: 15
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &867754780432387994
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 867754780432387993}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &867754780432387995
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 867754780432387993}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbb458bd4c3b3d149a41614dfbe86be4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &867754780464247613
 GameObject:
   m_ObjectHideFlags: 0
@@ -15666,7 +15609,6 @@ Transform:
   - {fileID: 867754780642694868}
   - {fileID: 867754781375303002}
   - {fileID: 867754781116728557}
-  - {fileID: 867754780432387992}
   m_Father: {fileID: 867754781744163647}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -26429,12 +26371,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 235a6615124795442b98c1f03500003e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MaxEnginePower: 40
+  m_MaxEnginePower: 60
   m_Lift: 0.002
   m_ZeroLiftSpeed: 300
-  m_RollEffect: 1
-  m_PitchEffect: 1
-  m_YawEffect: 0.2
+  m_RollEffect: 2
+  m_PitchEffect: 2
+  m_YawEffect: 0.4
   m_BankedTurnEffect: 0.5
   m_AerodynamicEffect: 0.02
   m_AutoTurnPitch: 0.5
@@ -26559,8 +26501,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f947e56d54f4274896478766fef616c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RollSensitivity: 0.5
-  m_PitchSensitivity: 0.5
+  m_RollSensitivity: 2
+  m_PitchSensitivity: 2
   m_LateralWanderDistance: 2
   m_LateralWanderSpeed: 0.11
   m_MaxClimbAngle: 45
@@ -26585,7 +26527,7 @@ MonoBehaviour:
   lookAheadForTargetFactor: 0.5
   lookAheadForSpeedOffset: 20
   lookAheadForSpeedFactor: 0.5
-  progressStyle: 0
+  progressStyle: 1
   pointToPointThreshold: 4
   target: {fileID: 867754780394025728}
 --- !u!114 &525615163
