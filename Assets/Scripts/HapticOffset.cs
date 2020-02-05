@@ -5,11 +5,14 @@ using UnityEngine;
 public class HapticOffset : MonoBehaviour
 {
     public Vector3 offset;
-    Vector3 rawPosition;
+    Vector3 realPosition;
+    Quaternion realRotation;
 
     void Update()
     {
-        rawPosition = GameObject.Find("HapticDevice").GetComponent<HapticPlugin>().stylusPositionWorld;
-        rawPosition += offset;
+        realPosition = GameObject.Find("HapticDevice").GetComponent<HapticPlugin>().stylusPositionWorld;
+        realRotation = GameObject.Find("HapticDevice").GetComponent<HapticPlugin>().stylusRotationWorld;
+        transform.position = realPosition + offset;
+        transform.rotation = realRotation;
     }
 }
