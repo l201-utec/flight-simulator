@@ -61,7 +61,7 @@ public class Graph : MonoBehaviour
 
     void Update()
     {
-        //Debug.Log(terrainGenerator.viewer.position.ToString("F4"));
+       //Debug.Log(terrainGenerator.viewer.position.ToString("F4"));
     }
 
 
