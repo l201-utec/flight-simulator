@@ -107,7 +107,7 @@ public class Graph : MonoBehaviour
         Vector3 worldPosition = GetClosestNodePosition(point);
         bool walkable = CheckIfWalkable(worldPosition);
 
-        return new Node(position, walkable);
+        return new Node(worldPosition, walkable);
     }
 
     Vector3 GetChunkIndex(Vector3 worldPosition)
