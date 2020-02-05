@@ -104,7 +104,7 @@ public class Graph : MonoBehaviour
 
     Node ClosestNode(Vector3 point)
     {
-        worldPosition = GetClosestNodePosition(point);
+        Vector3 worldPosition = GetClosestNodePosition(point);
         bool walkable = CheckIfWalkable(worldPosition);
 
         return new Node(position, walkable);
