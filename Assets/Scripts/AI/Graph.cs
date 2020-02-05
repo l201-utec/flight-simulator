@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.Assertions;
+using Priority_Queue;
 
 public static class Vector3Extensions
 {
@@ -18,6 +19,10 @@ public static class Vector3Extensions
     {
         return new Vector2(v.x, v.z);
     }
+    public static float Manhattan(this Vector3 v, Vector3 u)
+    {
+        return Mathf.Abs(v.x - u.x) + Mathf.Abs(v.y - u.y) + Mathf.Abs(v.z - u.z);
+    }
 }
 
 
@@ -29,15 +34,38 @@ public static class Vector2Extensions
     }
 }
 
+public class Mapping<K>
+{
+    private Dictionary<K, float> dict = new Dictionary<K, float>();
+    public float this[K key]
+    {
+        get {
+            if (dict.ContainsKey(key))
+                return dict[key];
+            else
+                return Mathf.Infinity;
+        }
+        set {
+            dict[key] = value;
+        }
+    }
+
+
+}
+
+
 // change name of grid
 public class Graph : MonoBehaviour
 {
 
     public int nodesPerChunkEdge;
     public GameObject mapGenerator;
+    public GameObject enemySpawnManagerGObject;
 
     TerrainGenerator terrainGenerator;
     MeshSettings meshSettings;
+    EnemySpawnManager enemySpawnManager;
+    private static Vector3[] directions = new Vector3[6]{Vector3.up, Vector3.down, Vector3.left, Vector3.right, Vector3.forward, Vector3.back};
 
     float nodeSeparation;
 
@@ -57,11 +85,82 @@ public class Graph : MonoBehaviour
        Debug.Log("Nodes Per Chunk Edge: " + nodesPerChunkEdge.ToString());
        Debug.Log("numVertsPerLine: " + meshSettings.numVertsPerLine);
        Debug.Log("meshWorldSize: " + meshSettings.meshWorldSize);
+
+       enemySpawnManager = enemySpawnManagerGObject.GetComponent<EnemySpawnManager>();
     }
 
     void Update()
     {
        //Debug.Log(terrainGenerator.viewer.position.ToString("F4"));
+    }
+
+    List<Node> GetNeighbors(Node u)
+    {
+        List<Node> neighbors = new List<Node>();
+
+        foreach (Vector3 dir in directions)
+        {
+            Vector3 tentative = u.worldPosition + nodeSeparation * dir;
+            if (CheckIfWalkable(tentative))
+                neighbors.Add(new Node(tentative));
+        }
+
+        return neighbors;
+    }
+
+    List<Node> ReconstructPath(Dictionary<Node, Node> cameFrom, Node current)
+    {
+        List<Node> path = new List<Node>(){current};
+        while (cameFrom.ContainsKey(current))
+        {
+            current = cameFrom[current];
+            path.Insert(0, current);
+        }
+
+        return path;
+    }
+    List<Node> AStar(Node src, Node dst)
+    {
+        System.Func<Node, Node, float> d = (u, v) => u.worldPosition.Manhattan(v.worldPosition);
+        System.Func<Node, float> h = v => src.worldPosition.Manhattan(v.worldPosition);
+        Mapping<Node> g = new Mapping<Node>(); //defaults to infinity
+        Mapping<Node> f = new Mapping<Node>(); //defaults to infinity
+
+        Dictionary<Node, Node> cameFrom = new Dictionary<Node, Node>();
+        g[src] = 0f;
+        f[src] = h(src);
+
+        SimplePriorityQueue<Node> pq = new SimplePriorityQueue<Node>();
+        pq.Enqueue(src, f[src]);
+
+        while (pq.Count != 0)
+        {
+            Node current = pq.Dequeue();
+
+            if (current == dst)
+            {
+                return ReconstructPath(cameFrom, current);
+            }
+
+            foreach( Node neighbor in GetNeighbors(current))
+            {
+                float tentativeGScore = g[neighbor] + d(current, neighbor);
+                if (tentativeGScore < g[neighbor])
+                {
+                    cameFrom[neighbor] = current;
+                    g[neighbor] = tentativeGScore;
+                    f[neighbor] = g[neighbor] + h(neighbor);
+
+                    if (!pq.Contains(neighbor))
+                        pq.Enqueue(neighbor, f[neighbor]);
+                    else
+                        pq.UpdatePriority(neighbor, f[neighbor]);
+                }
+
+
+            }
+        }
+        return new List<Node>();
     }
 
 
@@ -90,7 +189,8 @@ public class Graph : MonoBehaviour
     bool CheckIfWalkable(Vector3 worldPosition)
     {
         // Add other collisions here
-        if (worldPosition.y <= getHeightTerrain(worldPosition))
+        Collider[] hitColliders = Physics.OverlapSphere(worldPosition, nodeSeparation/2);
+        if (worldPosition.y <= getHeightTerrain(worldPosition) || hitColliders.Length != 0)
         {
             return false;
         }
@@ -107,7 +207,7 @@ public class Graph : MonoBehaviour
         Vector3 worldPosition = GetClosestNodePosition(point);
         bool walkable = CheckIfWalkable(worldPosition);
 
-        return new Node(worldPosition, walkable);
+        return new Node(worldPosition);
     }
 
     Vector3 GetChunkIndex(Vector3 worldPosition)

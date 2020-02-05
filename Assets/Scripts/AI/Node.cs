@@ -6,10 +6,8 @@ public class Node
 {
     public Vector3 worldPosition;
 
-    public bool walkable;
-    public Node(Vector3 _worldPosition, bool _walkable)
+    public Node(Vector3 _worldPosition)
     {
         worldPosition = _worldPosition;
-        walkable = _walkable;
     }
 }
