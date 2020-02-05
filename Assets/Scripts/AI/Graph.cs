@@ -89,27 +89,27 @@ public class Graph : MonoBehaviour
 
     bool CheckIfWalkable(Vector3 worldPosition)
     {
-        if (worldPosition.y >= getHeightTerrain(worldPosition))
-        {
-            return true;
-        }
-        else
+        // Add other collisions here
+        if (worldPosition.y <= getHeightTerrain(worldPosition))
         {
             return false;
         }
+        return true;
+    }
+
+    Vector3 GetClosestNodePosition(Vector3 worldPosition)
+    {
+        return (worldPosition / nodeSeparation).Round() * nodeSeparation;
     }
 
     Node ClosestNode(Vector3 point)
     {
-        Vector3 position = new Vector3(
-            Mathf.RoundToInt(point.x/nodeSeparation) * nodeSeparation,
-            Mathf.RoundToInt(point.y/nodeSeparation) * nodeSeparation,
-            Mathf.RoundToInt(point.z/nodeSeparation) * nodeSeparation
-        );
+        worldPosition = GetClosestNodePosition(point);
+        bool walkable = CheckIfWalkable(worldPosition);
 
-        bool walkable = CheckIfWalkable(position);
         return new Node(position, walkable);
     }
+
     Vector3 GetChunkIndex(Vector3 worldPosition)
     {
         // Since the worldPosition of indexes are the center of the chunk, we need to subtract
@@ -163,32 +163,6 @@ public class Graph : MonoBehaviour
     {
         if (terrainGenerator != null)
         {
-            /*
-            TerrainChunk tc = GetTerrainChunk(terrainGenerator.viewer.position);
-
-            Vector3 center = new Vector3(
-                tc.coord.x * meshSettings.meshWorldSize,
-                0, 
-                tc.coord.y * meshSettings.meshWorldSize);
-
-            Vector3 size = Vector3.one * meshSettings.meshWorldSize;
-
-            Gizmos.DrawWireCube(center, size);
-            
-            Vector3 index = GetChunkIndex(terrainGenerator.viewer.position);
-            Vector2 groundIndex = new Vector2(index.x, index.z);
-            Vector3 center2 = new Vector3(
-                groundIndex.x * meshSettings.meshWorldSize,
-                0, 
-                groundIndex.y * meshSettings.meshWorldSize);
-
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(center2, size);
-            */
-
-            // draw position
-            // LogAllVisibleTerrainChunks(terrainGenerator.visibleTerrainChunks);
-
             foreach(TerrainChunk tc_ in terrainGenerator.visibleTerrainChunks)
             {
                 // LogSummaryTerrainChunk(tc_);
