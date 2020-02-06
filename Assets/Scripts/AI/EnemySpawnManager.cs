@@ -77,10 +77,9 @@ public class EnemySpawnManager : MonoBehaviour
         Transform obj = terrainGenerator.viewer;
         Vector3 center = obj.position + distanceAway * Vector3.Scale(obj.forward, new Vector3(1, 0, 1));
 
-        if (center.y <= heightMapSettings.maxHeight)
-        {
-            center.y = heightMapSettings.maxHeight + 100f; 
-        }
+
+        center.y = heightMapSettings.maxHeight + 200f; 
+       
 
         Vector3 dir = (center - obj.position).normalized;
         Vector3 perpendicular = new Vector3(dir.z, 0, -dir.x);

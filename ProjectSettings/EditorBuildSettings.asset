@@ -5,40 +5,40 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/SampleScenes/Scenes/2dCharacter.unity
     guid: e64703861e6c7d748bab0c2dee48b08d
-  - enabled: 1
+  - enabled: 0
     path: Assets/SampleScenes/Scenes/AircraftJet2Axis.unity
     guid: 1648d99da5b4a7c4582afcd4b5660f01
-  - enabled: 1
+  - enabled: 0
     path: Assets/SampleScenes/Scenes/AircraftJetAI.unity
     guid: 363861c29c39f0e4bb36d75975950302
-  - enabled: 1
+  - enabled: 0
     path: Assets/SampleScenes/Scenes/AircraftPropeller4Axis.unity
     guid: 5bda8cddff6467b49826e3ff2a374f49
-  - enabled: 1
+  - enabled: 0
     path: Assets/SampleScenes/Scenes/AircraftPropellerAI.unity
     guid: e1ee66940de9023479566432a1a00132
-  - enabled: 1
+  - enabled: 0
     path: Assets/SampleScenes/Scenes/Car.unity
     guid: 41b8fdb98491fab48a0cd641d4c0e3b1
-  - enabled: 1
+  - enabled: 0
     path: Assets/SampleScenes/Scenes/CarAIWaypointBased.unity
     guid: 81ce53b350e0a3247ae838c0d57967ab
-  - enabled: 1
+  - enabled: 0
     path: Assets/SampleScenes/Scenes/CharacterFirstPerson.unity
     guid: f2f18f678332b48458bb0e9c5ab081bf
-  - enabled: 1
+  - enabled: 0
     path: Assets/SampleScenes/Scenes/CharacterThirdPerson.unity
     guid: 0cb5d44a4c963f145acdb0a0c95d9d1b
-  - enabled: 1
+  - enabled: 0
     path: Assets/SampleScenes/Scenes/CharacterThirdPersonAI.unity
     guid: 17382a6997de5bf4a9ca6c4830613498
-  - enabled: 1
+  - enabled: 0
     path: Assets/SampleScenes/Scenes/Particles.unity
     guid: 9148cc7972b0bc848b21aef88468f740
-  - enabled: 1
+  - enabled: 0
     path: Assets/SampleScenes/Scenes/RollerBall.unity
     guid: 7eaa63fd5f544054c91b4364fe194584
   - enabled: 1

@@ -14,6 +14,7 @@ TagManager:
   - PlayerCollider
   - Touchable
   - GraphManager
+  - EnemySpawner
   layers:
   - Default
   - TransparentFX

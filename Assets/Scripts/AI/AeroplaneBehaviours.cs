@@ -13,6 +13,7 @@ public class AeroplaneBehaviours : MonoBehaviour
     public GameObject waypointsPrefab;
     public WaypointProgressTracker waypointProgressTracker;
     public GameObject graphManager;
+    public EnemySpawnManager enemySpawnManager;
     
     private Graph graph;
 
@@ -29,10 +30,15 @@ public class AeroplaneBehaviours : MonoBehaviour
 
     void Start()
     {
+        GameObject enemySpawner;
+
         if (graphManager == null)
             graphManager = GameObject.FindGameObjectWithTag("GraphManager");
         if (targetObj == null)
             targetObj = GameObject.FindGameObjectWithTag("Player");
+        
+        enemySpawner = GameObject.FindGameObjectWithTag("EnemySpawner");
+        enemySpawnManager = enemySpawner.GetComponent<EnemySpawnManager>();
 
         waypointCircuitManager = Instantiate(waypointsPrefab, Vector3.zero, Quaternion.identity);
         waypointCircuitManager.name = gameObject.name + "\'s Waypoints";
@@ -74,7 +80,7 @@ public class AeroplaneBehaviours : MonoBehaviour
             }
 
             // Remove starting position
-            int frontTrash = 5;
+            int frontTrash = 2;
             while (frontTrash-- > 0 && path.Count >= 2)
                 path.RemoveAt(0);
 
@@ -86,6 +92,7 @@ public class AeroplaneBehaviours : MonoBehaviour
 
     void OnDestroy()
     {
+        enemySpawnManager.EnemyDefeated();
         Destroy(waypointCircuitManager);
     }
 

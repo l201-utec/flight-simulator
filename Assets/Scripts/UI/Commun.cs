@@ -13,7 +13,8 @@ public class Commun : MonoBehaviour
     public Text angleY;
     public Text angleZ;
 
-
+    private int byte_recv;
+    private bool awaitingResponse = false;
     SerialPort sp = new SerialPort("COM6", 115200);
 
     public void Start()
@@ -23,7 +24,7 @@ public class Commun : MonoBehaviour
 
         if (sp.IsOpen)
         {
-            Debug.Log("IsOpen");
+            Debug.Log("SERIAL IS OPEN");
         }
         
         sp.ReadTimeout = 1000;
@@ -37,8 +38,20 @@ public class Commun : MonoBehaviour
             try
             {
                 //sp.ReadByte();
-                sp.Write(message_send);
-                sp.BaseStream.Flush();
+                if(!awaitingResponse)
+                {
+                    Debug.Log("SER: " + message_send);
+                    sp.Write(message_send);
+                    sp.BaseStream.Flush();
+                    awaitingResponse = true;
+
+                }
+                if (sp.BytesToRead > 0)
+                {
+                    byte_recv = sp.ReadByte();
+                    awaitingResponse = false;
+                }
+
 
                 //text.text = message_recv;
             }
@@ -58,10 +71,14 @@ public class Commun : MonoBehaviour
 
     public void Angles()
     {
-        message_send = angleX.text  + "$" + angleY.text   + "$" + angleZ.text  + "\n";
+        message_send = angleZ.text  + "$" + angleY.text   + "$" + angleX.text  + "\n";
         //Debug.Log("RECIEVED ANGLES");
     }
-    
+
+    public void TransmitAngles(string x, string y, string z)
+    {
+        message_send = x + "$" + y + "$" + z + "\n";
+    }   
 }
 
 /*

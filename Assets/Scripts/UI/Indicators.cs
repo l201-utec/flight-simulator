@@ -24,6 +24,12 @@ public class Indicators : MonoBehaviour {
 
     public bool destroy;
 
+    //private Commun commun;
+
+    void Start()
+    {
+        // commun = gameObject.GetComponent<Commun>();    
+    }
     void Update () {
 
         destroy = (plane == null);
@@ -73,7 +79,8 @@ public class Indicators : MonoBehaviour {
             anglez.text = plane.transform.eulerAngles.z.ToString("0.00");
 
             gameObject.SendMessage("Angles");
-
+            // commun.TransmitAngles(anglex.text, angley.text, anglez.text);
+            
             float hitCounter = GameObject.Find("AircraftJet").GetComponent<DamageDetection>().collisionCount;
             HealthBar.transform.localScale = new Vector3(1f, 1f - 0.33f * hitCounter, 1f);
             health.text = (100 - 33 * (int)hitCounter).ToString("0");

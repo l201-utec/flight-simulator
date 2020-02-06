@@ -21758,8 +21758,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f947e56d54f4274896478766fef616c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RollSensitivity: 2
-  m_PitchSensitivity: 2
+  m_RollSensitivity: 3
+  m_PitchSensitivity: 3
   m_LateralWanderDistance: 2
   m_LateralWanderSpeed: 0.11
   m_MaxClimbAngle: 45
@@ -21804,7 +21804,7 @@ MonoBehaviour:
     type: 3}
   waypointProgressTracker: {fileID: 0}
   graphManager: {fileID: 0}
-  distanceBetween: 0
+  enemySpawnManager: {fileID: 0}
   delay: 1
   difficulty: 1
 --- !u!1 &867754781876817234
@@ -22295,7 +22295,7 @@ Transform:
   m_LocalScale: {x: 4.03, y: 4.94, z: 3.53}
   m_Children: []
   m_Father: {fileID: 867754781744163647}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &74481573308935830
 MeshFilter:
