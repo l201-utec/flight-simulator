@@ -1413,15 +1413,15 @@ GameObject:
   - component: {fileID: 530804668}
   - component: {fileID: 530804667}
   - component: {fileID: 530804666}
-  - component: {fileID: 530804665}
   - component: {fileID: 530804670}
+  - component: {fileID: 530804665}
   m_Layer: 0
   m_Name: SkyTurbulence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &530804665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1434,9 +1434,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ad3557e55d4326498774f659558e89a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectType: 4
-  Gain: 0.699999988079071
-  Magnitude: 0.699999988079071
+  effectType: 3
+  Gain: 0.7509999871253967
+  Magnitude: 0.7429999709129333
   Frequency: 200
   Position: {x: 0, y: 0, z: 0}
   Direction: {x: 0, y: 1, z: 0}
@@ -1758,7 +1758,7 @@ RectTransform:
   m_AnchoredPosition: {x: 850, y: -45.499977}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!43 &624532043
+--- !u!43 &675191921
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2123,7 +2123,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxAngle: -80
   minAngle: 190
-  plane: {fileID: 0}
+  plane: {fileID: 6665130994508748056}
   speed: 0
 --- !u!114 &767833316
 MonoBehaviour:
@@ -3334,15 +3334,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4583424822498384, guid: 7cdb4dbd1f8f22a4a9a363f1a23b8217, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 4583424822498384, guid: 7cdb4dbd1f8f22a4a9a363f1a23b8217, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5
+      value: -5.34
       objectReference: {fileID: 0}
     - target: {fileID: 4583424822498384, guid: 7cdb4dbd1f8f22a4a9a363f1a23b8217, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 8
+      value: 8.99
       objectReference: {fileID: 0}
     - target: {fileID: 4583424822498384, guid: 7cdb4dbd1f8f22a4a9a363f1a23b8217, type: 3}
       propertyPath: m_LocalRotation.x
@@ -3366,15 +3366,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4583424822498384, guid: 7cdb4dbd1f8f22a4a9a363f1a23b8217, type: 3}
       propertyPath: m_LocalScale.x
-      value: 6
+      value: 5.05
       objectReference: {fileID: 0}
     - target: {fileID: 4583424822498384, guid: 7cdb4dbd1f8f22a4a9a363f1a23b8217, type: 3}
       propertyPath: m_LocalScale.y
-      value: 6
+      value: 5.05
       objectReference: {fileID: 0}
     - target: {fileID: 4583424822498384, guid: 7cdb4dbd1f8f22a4a9a363f1a23b8217, type: 3}
       propertyPath: m_LocalScale.z
-      value: 6
+      value: 5.05
       objectReference: {fileID: 0}
     - target: {fileID: 4583424822498384, guid: 7cdb4dbd1f8f22a4a9a363f1a23b8217, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -4486,7 +4486,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1695475795}
-  m_Mesh: {fileID: 624532043}
+  m_Mesh: {fileID: 675191921}
 --- !u!1 &1707745656
 GameObject:
   m_ObjectHideFlags: 0
@@ -10086,7 +10086,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6665130994508748110}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f972db4376903b148a187843e1c9e6b7, type: 3}
   m_Name: 
@@ -14471,7 +14471,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5582543957949694288}
   m_LocalRotation: {x: 0.005289139, y: -0.707087, z: -0.70708704, w: 0.005289139}
-  m_LocalPosition: {x: 5.19, y: -6.18, z: 11.01}
+  m_LocalPosition: {x: 5.18, y: -5.73, z: 11.01}
   m_LocalScale: {x: 0.03, y: 0.04, z: 0.03}
   m_Children:
   - {fileID: 5582543957357710947}
