@@ -26371,7 +26371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 235a6615124795442b98c1f03500003e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MaxEnginePower: 60
+  m_MaxEnginePower: 40
   m_Lift: 0.002
   m_ZeroLiftSpeed: 300
   m_RollEffect: 2
@@ -26547,6 +26547,7 @@ MonoBehaviour:
   graphManager: {fileID: 0}
   distanceBetween: 0
   delay: 1
+  difficulty: 0
 --- !u!1 &867754781876817234
 GameObject:
   m_ObjectHideFlags: 0
