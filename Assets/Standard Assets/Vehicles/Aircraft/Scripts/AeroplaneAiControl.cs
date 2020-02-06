@@ -18,6 +18,8 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         [SerializeField] private float m_SpeedEffect = 0.01f;           // This increases the effect of the controls based on the plane's speed.
         [SerializeField] private float m_TakeoffHeight = 20;            // the AI will fly straight and only pitch upwards until reaching this height
         [SerializeField] private Transform m_Target;                    // the target to fly towards
+        public float throttleInput = 0.5f;
+
 
         private AeroplaneController m_AeroplaneController;  // The aeroplane controller that is used to move the plane
         private float m_RandomPerlin;                       // Used for generating random point on perlin noise so that the plane will wander off path slightly
@@ -65,9 +67,6 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
 
                 // calculate the difference between current pitch and desired pitch
                 float changePitch = targetAnglePitch - m_AeroplaneController.PitchAngle;
-
-                // AI always applies gentle forward throttle
-                const float throttleInput = 0.5f;
 
                 // AI applies elevator control (pitch, rotation around x) to reach the target angle
                 float pitchInput = changePitch*m_PitchSensitivity;

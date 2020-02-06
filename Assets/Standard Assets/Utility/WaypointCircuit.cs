@@ -63,6 +63,7 @@ namespace UnityStandardAssets.Utility
 
             if (Length == 0)
             {
+
                 Length = distances[distances.Length - 1];
             }
 
@@ -125,8 +126,13 @@ namespace UnityStandardAssets.Utility
                     (-p0 + 3*p1 - 3*p2 + p3)*i*i*i);
         }
 
-
-        private void CachePositionsAndDistances()
+        public void RefreshPath()
+        {
+            numPoints = Waypoints.Length;
+            CachePositionsAndDistances();
+            Length = distances[distances.Length - 1];
+        }
+        public void CachePositionsAndDistances()
         {
             // transfer the position of each point and distances between points to arrays for
             // speed of lookup at runtime
@@ -161,7 +167,7 @@ namespace UnityStandardAssets.Utility
             DrawGizmos(true);
         }
 
-
+        
         private void DrawGizmos(bool selected)
         {
             waypointList.circuit = this;

@@ -21784,7 +21784,7 @@ MonoBehaviour:
   lookAheadForTargetFactor: 0.5
   lookAheadForSpeedOffset: 20
   lookAheadForSpeedFactor: 0.5
-  progressStyle: 1
+  progressStyle: 0
   pointToPointThreshold: 4
   target: {fileID: 867754780394025728}
 --- !u!114 &525615163

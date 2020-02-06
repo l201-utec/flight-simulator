@@ -218,8 +218,15 @@ public class Graph : MonoBehaviour
         {
             Debug.LogError("OutBounds: (" + i.ToString() + ", " + j.ToString() + ")");
         }
-        return GetTerrainChunk(worldPosition).heightMap
+        try
+        {
+            return GetTerrainChunk(worldPosition).heightMap
             .values[i, j];
+        }
+        catch
+        {
+            return 0;
+        }
     }
 
     bool CheckIfWalkable(Vector3 worldPosition)

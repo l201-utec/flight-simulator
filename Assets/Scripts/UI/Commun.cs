@@ -31,7 +31,7 @@ public class Commun : MonoBehaviour
         sp.WriteTimeout = 1000;
     }
 
-    public void Update()
+    public void FixedUpdate()
     {
         if (sp.IsOpen)
         {
@@ -40,7 +40,7 @@ public class Commun : MonoBehaviour
                 //sp.ReadByte();
                 if(!awaitingResponse)
                 {
-                    Debug.Log("SER: " + message_send);
+                    // Debug.Log("SER: " + message_send);
                     sp.Write(message_send);
                     sp.BaseStream.Flush();
                     awaitingResponse = true;

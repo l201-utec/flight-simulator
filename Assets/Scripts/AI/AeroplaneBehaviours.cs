@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityStandardAssets.Utility;
 using UnityEngine.Assertions;
 using System;
+using UnityStandardAssets.Vehicles.Aeroplane;
+
 
 public class AeroplaneBehaviours : MonoBehaviour
 {
@@ -21,7 +23,10 @@ public class AeroplaneBehaviours : MonoBehaviour
     private WaypointCircuit waypointCircuit;
     private List<Transform> sleepingTargets = new List<Transform>();
 
+    private AeroplaneAiControl aeroplaneAiControl;
+
     float predictionTime = 2f;
+    public float facingAngle = 30.0f;
 
 
     private float nextUpdate = 0.1f;
@@ -51,12 +56,15 @@ public class AeroplaneBehaviours : MonoBehaviour
 
         graph = graphManager.GetComponent<Graph>();
 
+        aeroplaneAiControl = this.gameObject.GetComponent<AeroplaneAiControl>();
+
         AlterWaypointCircuitFromPath(new List<Node>());
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        ChangeThrottle();
 
         if (difficulty == 0 || !graph.IsValidPosition(this.transform.position))
         {
@@ -96,6 +104,18 @@ public class AeroplaneBehaviours : MonoBehaviour
         Destroy(waypointCircuitManager);
     }
 
+    void ChangeThrottle()
+    {
+        float angle = Vector3.Angle(targetObj.transform.forward, transform.position - targetObj.transform.position);
+        if (angle < facingAngle)
+        {
+            aeroplaneAiControl.throttleInput = 0.5f + 0.5f * (facingAngle - angle)/facingAngle;
+        }
+        else
+        {
+            aeroplaneAiControl.throttleInput = 0.2f;
+        }
+    }
     void UpdateLast()
     {
         waypointCircuit.waypointList.items[waypointCircuit.waypointList.items.Length - 1].position = targetObj.transform.position;
@@ -199,6 +219,7 @@ public class AeroplaneBehaviours : MonoBehaviour
         }
     
         waypointCircuit.waypointList.items = waypoints.ToArray();
+        waypointCircuit.RefreshPath();
         waypointProgressTracker.Reset();
     }
 

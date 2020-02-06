@@ -22,6 +22,7 @@ public class EnemySpawnManager : MonoBehaviour
     public Wave[] Waves; // class to hold information per wave
     public float TimeBetweenEnemies = 2f;
     public GameObject[] currentEnemies;
+    public Transform playerObj;
 
     private int _totalEnemiesInCurrentWave;
     private int _enemiesInWaveLeft;
@@ -74,7 +75,7 @@ public class EnemySpawnManager : MonoBehaviour
         SpawnPoints = new FakeTransform[enemiesPerCurrentWave];
 
 
-        Transform obj = terrainGenerator.viewer;
+        Transform obj = playerObj;
         Vector3 center = obj.position + distanceAway * Vector3.Scale(obj.forward, new Vector3(1, 0, 1));
 
 
