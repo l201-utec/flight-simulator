@@ -56,7 +56,6 @@ public class Mapping<K>
 public class Graph : MonoBehaviour
 {
     public bool debug = false;
-    public int maxIterations = 500;
     public int nodesPerChunkEdge;
     public GameObject mapGenerator;
     public GameObject enemySpawnManagerGObject;
@@ -66,7 +65,12 @@ public class Graph : MonoBehaviour
     EnemySpawnManager enemySpawnManager;
     private static Vector3[] directions = new Vector3[6]{Vector3.up, Vector3.down, Vector3.left, Vector3.right, Vector3.forward, Vector3.back};
 
+
     float nodeSeparation;
+    public int maxIterations;
+    public int MAX_QUEUE_SIZE;
+
+
 
     void Start()
     {
@@ -125,6 +129,7 @@ public class Graph : MonoBehaviour
     public List<Node> AStar(Node src, Node dst)
     {
         int iterations = 0;
+        int enqueuedNodes = 0;
 
         System.Func<Node, Node, float> d = (u, v) => u.worldPosition.Manhattan(v.worldPosition);
         System.Func<Node, float> h = v => dst.worldPosition.Manhattan(v.worldPosition);
@@ -135,12 +140,12 @@ public class Graph : MonoBehaviour
         g[src] = 0f;
         f[src] = h(src);
 
-        SimplePriorityQueue<Node> pq = new SimplePriorityQueue<Node>();
+        FastPriorityQueue<Node> pq = new FastPriorityQueue<Node>(MAX_QUEUE_SIZE);
         pq.Enqueue(src, f[src]);
 
         // Debug.Log("[A* PATHFINDING]> START: " + src.worldPosition.ToString() + " TARGET: " + dst.worldPosition.ToString());
 
-        while (iterations < maxIterations && pq.Count != 0)
+        while (iterations++ < maxIterations && pq.Count != 0)
         {
             Node current = pq.Dequeue();
             // Debug.Log("Current node is: " + current.worldPosition.ToString() + " with FCOST: " + f[current] + " GCOST: " + g[current] + " HCOST: " + h(current));
@@ -148,6 +153,8 @@ public class Graph : MonoBehaviour
             // too precise, less precision
             if (dst.worldPosition == current.worldPosition || h(current) < 0.01)
             {
+                Debug.Log("[A STAR] Iterations: " + iterations.ToString() + " enqueues: " + enqueuedNodes.ToString());
+                pq.Clear();
                 return ReconstructPath(cameFrom, current);
             }
 
@@ -165,7 +172,9 @@ public class Graph : MonoBehaviour
                     if (!pq.Contains(neighbor))
                     {
                         //Debug.Log("Enqueuing node: " + neighbor.worldPosition.ToString());
+
                         pq.Enqueue(neighbor, f[neighbor]);
+                        ++enqueuedNodes;
                     }
                     else
                         pq.UpdatePriority(neighbor, f[neighbor]);
@@ -174,6 +183,10 @@ public class Graph : MonoBehaviour
 
             }
         }
+
+        Debug.Log("[A STAR] Iterations: " + iterations.ToString() + " enqueues: " + enqueuedNodes.ToString());
+
+        pq.Clear();
         return new List<Node>();
     }
 
@@ -191,6 +204,12 @@ public class Graph : MonoBehaviour
 
         int i  = Mathf.FloorToInt(relativePosition.x * length/meshSettings.meshWorldSize);
         int j  = length - Mathf.FloorToInt(relativePosition.z * length/meshSettings.meshWorldSize) - 1;
+
+        if (i >= length) i = length - 1;
+        if (i < 0) i = 0;
+
+        if (j >= length) j = length - 1;
+        if (j < 0) j = 0;
         
         if (i < 0 || i >= length || j < 0 || j >= length)
         {

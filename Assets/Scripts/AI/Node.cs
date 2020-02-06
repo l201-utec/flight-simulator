@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Priority_Queue;
 
-public class Node
+public class Node : FastPriorityQueueNode
 {
     public Vector3 worldPosition;
 
