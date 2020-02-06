@@ -55,7 +55,8 @@ public class Mapping<K>
 // change name of grid
 public class Graph : MonoBehaviour
 {
-
+    public bool debug = false;
+    public int maxIterations = 500;
     public int nodesPerChunkEdge;
     public GameObject mapGenerator;
     public GameObject enemySpawnManagerGObject;
@@ -85,11 +86,6 @@ public class Graph : MonoBehaviour
        Debug.Log("meshWorldSize: " + meshSettings.meshWorldSize);
 
        enemySpawnManager = enemySpawnManagerGObject.GetComponent<EnemySpawnManager>();
-    }
-
-    void Update()
-    {
-       //Debug.Log(terrainGenerator.viewer.position.ToString("F4"));
     }
 
     List<Node> GetNeighbors(Node u)
@@ -128,7 +124,7 @@ public class Graph : MonoBehaviour
 
     public List<Node> AStar(Node src, Node dst)
     {
-        int maxIterations = 100;
+        int iterations = 0;
 
         System.Func<Node, Node, float> d = (u, v) => u.worldPosition.Manhattan(v.worldPosition);
         System.Func<Node, float> h = v => dst.worldPosition.Manhattan(v.worldPosition);
@@ -142,24 +138,24 @@ public class Graph : MonoBehaviour
         SimplePriorityQueue<Node> pq = new SimplePriorityQueue<Node>();
         pq.Enqueue(src, f[src]);
 
-        Debug.Log("[A* PATHFINDING]> START: " + src.worldPosition.ToString() + " TARGET: " + dst.worldPosition.ToString());
+        // Debug.Log("[A* PATHFINDING]> START: " + src.worldPosition.ToString() + " TARGET: " + dst.worldPosition.ToString());
 
-        while (maxIterations-- > 0 && pq.Count != 0)
+        while (iterations < maxIterations && pq.Count != 0)
         {
             Node current = pq.Dequeue();
-            Debug.Log("Current node is: " + current.worldPosition.ToString() + " with FCOST: " + f[current] + " GCOST: " + g[current] + " HCOST: " + h(current));
+            // Debug.Log("Current node is: " + current.worldPosition.ToString() + " with FCOST: " + f[current] + " GCOST: " + g[current] + " HCOST: " + h(current));
             
             // too precise, less precision
-            if (dst.worldPosition == current.worldPosition || h(current) < 0.001)
+            if (dst.worldPosition == current.worldPosition || h(current) < 0.01)
             {
                 return ReconstructPath(cameFrom, current);
             }
 
             foreach( Node neighbor in GetNeighbors(current))
             {
-                Debug.Log("Considering neighbor node: " + neighbor.worldPosition);
+                //Debug.Log("Considering neighbor node: " + neighbor.worldPosition);
                 float tentativeGScore = g[current] + d(current, neighbor);
-                Debug.Log("tentativeGscore: " + tentativeGScore + " gCOST: " + g[neighbor]);
+                //Debug.Log("tentativeGscore: " + tentativeGScore + " gCOST: " + g[neighbor]);
                 if (tentativeGScore < g[neighbor])
                 {
                     cameFrom[neighbor] = current;
@@ -168,7 +164,7 @@ public class Graph : MonoBehaviour
 
                     if (!pq.Contains(neighbor))
                     {
-                        Debug.Log("Enqueuing node: " + neighbor.worldPosition.ToString());
+                        //Debug.Log("Enqueuing node: " + neighbor.worldPosition.ToString());
                         pq.Enqueue(neighbor, f[neighbor]);
                     }
                     else
@@ -290,7 +286,7 @@ public class Graph : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        if (terrainGenerator != null)
+        if (debug && terrainGenerator != null)
         {
             foreach(TerrainChunk tc_ in terrainGenerator.visibleTerrainChunks)
             {
@@ -303,7 +299,6 @@ public class Graph : MonoBehaviour
                 
                 Gizmos.color = Color.white;
                 Gizmos.DrawWireCube(center_, new Vector3(10, 500, 10));
-
 
 
                 for (int xi = 0; xi < nodesPerChunkEdge; ++xi) 
@@ -335,6 +330,7 @@ public class Graph : MonoBehaviour
                         }
                     }
                 }
+                
             }
         
         }
