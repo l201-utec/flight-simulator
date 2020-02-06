@@ -26371,7 +26371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 235a6615124795442b98c1f03500003e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MaxEnginePower: 40
+  m_MaxEnginePower: 25
   m_Lift: 0.002
   m_ZeroLiftSpeed: 300
   m_RollEffect: 2
