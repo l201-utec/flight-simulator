@@ -10,6 +10,7 @@ public class AeroplaneBehaviours : MonoBehaviour
     // Start is called before the first frame update
 
     public GameObject targetObj;
+    public GameObject waypointsPrefab;
     public WaypointProgressTracker waypointProgressTracker;
     public GameObject graphManager;
     
@@ -19,7 +20,6 @@ public class AeroplaneBehaviours : MonoBehaviour
     private WaypointCircuit waypointCircuit;
     private List<Transform> sleepingTargets = new List<Transform>();
 
-    public float distanceBetween;
     float predictionTime = 2f;
 
 
@@ -34,13 +34,14 @@ public class AeroplaneBehaviours : MonoBehaviour
         if (targetObj == null)
             targetObj = GameObject.FindGameObjectWithTag("Player");
 
+        waypointCircuitManager = Instantiate(waypointsPrefab, Vector3.zero, Quaternion.identity);
+        waypointCircuitManager.name = gameObject.name + "\'s Waypoints";
+        
+        waypointProgressTracker = this.gameObject.GetComponent<WaypointProgressTracker>();
 
-        waypointProgressTracker = gameObject.GetComponent<WaypointProgressTracker>();
+        waypointCircuit = waypointCircuitManager.GetComponent<WaypointCircuit>();
 
-
-        waypointCircuit = waypointProgressTracker.circuit;
-
-        waypointCircuitManager = waypointCircuit.gameObject;
+        waypointProgressTracker.circuit = waypointCircuit;
 
         graph = graphManager.GetComponent<Graph>();
 
@@ -50,9 +51,14 @@ public class AeroplaneBehaviours : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (difficulty > 0 && Time.time >= nextUpdate && graph.IsValidPosition(this.transform.position))
+
+        if (difficulty == 0 || !graph.IsValidPosition(this.transform.position))
         {
-            nextUpdate = Time.time + delay;
+            AlterWaypointCircuitFromPath(new List<Node>());
+        }
+        else if (difficulty > 0 && Time.time >= nextUpdate && graph.IsValidPosition(this.transform.position))
+        {
+            nextUpdate = Time.time + delay + delay * UnityEngine.Random.Range(0f, 1f);
             Debug.Log(this.gameObject.name + " is on a valid position, starting smart pathfinding");
             List<Node> path = graph.AStar(
             graph.GetClosestNode(this.transform.position),
@@ -63,17 +69,24 @@ public class AeroplaneBehaviours : MonoBehaviour
             else
             {
                 Debug.Log("PATH (s: "+ path.Count + ") of " + gameObject.name + ">> " + string.Join("", path.ConvertAll(v => v.worldPosition.ToString() ).ToArray()));
-                foreach (Node v in path) 
-                {
-                    Debug.Log(v.worldPosition.ToString());
-                }
 
 
             }
+
+            // Remove starting position
+            int frontTrash = 5;
+            while (frontTrash-- > 0 && path.Count >= 0)
+                path.RemoveAt(0);
+
             AlterWaypointCircuitFromPath(path);
         }
-        else
-            AlterWaypointCircuitFromPath(new List<Node>());
+        else if (difficulty > 0)
+            UpdateLast();
+    }
+
+    void UpdateLast()
+    {
+        waypointCircuit.waypointList.items[waypointCircuit.waypointList.items.Length - 1].position = targetObj.transform.position;
     }
 
     Transform WakeUpTarget()
@@ -88,6 +101,7 @@ public class AeroplaneBehaviours : MonoBehaviour
 
     void PutTargetToSleep(Transform obj)
     {
+        obj.gameObject.name = "Waypoint (Deactivated)";
         obj.gameObject.SetActive(false);
         sleepingTargets.Add(obj);
     }
@@ -95,7 +109,7 @@ public class AeroplaneBehaviours : MonoBehaviour
     GameObject InstantiateTarget()
     {
         GameObject target = new GameObject("Waypoint");
-        target.transform.parent = waypointCircuitManager.transform;
+        target.transform.SetParent(waypointCircuitManager.transform, false);
         // maybe one needs to add the reference to parent children
         return target;
     }
@@ -167,7 +181,10 @@ public class AeroplaneBehaviours : MonoBehaviour
             Debug.LogError("Not equal number of waypoints as path length");
 
         for (int i = 0; i < waypoints.Count; ++i)
+        {
+            waypoints[i].gameObject.name = "Waypoint " + i.ToString();
             waypoints[i].position = path[i].worldPosition;
+        }
     
         waypointCircuit.waypointList.items = waypoints.ToArray();
         waypointProgressTracker.Reset();
