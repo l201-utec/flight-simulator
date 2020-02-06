@@ -21,6 +21,7 @@ public class EnemySpawnManager : MonoBehaviour
     public GameObject mapGenerator;
     public Wave[] Waves; // class to hold information per wave
     public float TimeBetweenEnemies = 2f;
+    public GameObject[] currentEnemies;
 
     private int _totalEnemiesInCurrentWave;
     private int _enemiesInWaveLeft;
@@ -98,8 +99,10 @@ public class EnemySpawnManager : MonoBehaviour
     // Coroutine to spawn all of our enemies
     IEnumerator SpawnEnemies()
     {
+        GameObject currentEnemyPrefab = Waves[_currentWave].Enemy;
 
-        GameObject enemy = Waves[_currentWave].Enemy;
+        currentEnemies = new GameObject[_totalEnemiesInCurrentWave];
+
         
         SetSpawnPoints();
 
@@ -110,9 +113,13 @@ public class EnemySpawnManager : MonoBehaviour
             _spawnedEnemies++;
             _enemiesInWaveLeft++;
 
-            Instantiate(enemy, SpawnPoints[_spawnedEnemies - 1].position, 
-                             SpawnPoints[_spawnedEnemies - 1].rotation);
-            enemy.gameObject.name = "AircraftAI_" + (_spawnedEnemies - 1).ToString();
+            currentEnemies[_spawnedEnemies - 1] = Instantiate(
+                                        currentEnemyPrefab, 
+                                        SpawnPoints[_spawnedEnemies - 1].position, 
+                                        SpawnPoints[_spawnedEnemies - 1].rotation);
+
+            currentEnemies[_spawnedEnemies - 1].gameObject.name = "AircraftAI_" + 
+                                                    (_spawnedEnemies - 1).ToString();
             yield return new WaitForSeconds(TimeBetweenEnemies);
         }
         yield return null;

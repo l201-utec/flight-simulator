@@ -26543,9 +26543,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetObj: {fileID: 0}
-  targetTracker: {fileID: 146370516}
-  targetTracker2: {fileID: 4322112116367893680}
+  waypointProgressTracker: {fileID: 0}
+  graphManager: {fileID: 0}
   distanceBetween: 0
+  delay: 1
 --- !u!1 &867754781876817234
 GameObject:
   m_ObjectHideFlags: 0

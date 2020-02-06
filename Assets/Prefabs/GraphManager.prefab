@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 6044873984359433612}
   - component: {fileID: 6044873984359433613}
   m_Layer: 0
-  m_Name: GraphGenerator
-  m_TagString: Untagged
+  m_Name: GraphManager
+  m_TagString: GraphManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45,3 +45,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodesPerChunkEdge: 5
   mapGenerator: {fileID: 0}
+  enemySpawnManagerGObject: {fileID: 0}

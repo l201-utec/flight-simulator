@@ -49,8 +49,6 @@ public class Mapping<K>
             dict[key] = value;
         }
     }
-
-
 }
 
 
@@ -63,7 +61,7 @@ public class Graph : MonoBehaviour
     public GameObject enemySpawnManagerGObject;
 
     TerrainGenerator terrainGenerator;
-    MeshSettings meshSettings;
+    public MeshSettings meshSettings;
     EnemySpawnManager enemySpawnManager;
     private static Vector3[] directions = new Vector3[6]{Vector3.up, Vector3.down, Vector3.left, Vector3.right, Vector3.forward, Vector3.back};
 
@@ -119,10 +117,21 @@ public class Graph : MonoBehaviour
 
         return path;
     }
-    List<Node> AStar(Node src, Node dst)
+    
+    public bool IsValidPosition(Vector3 worldPosition)
     {
+        if (terrainGenerator.terrainChunkDictionary.ContainsKey(GetChunkIndex(worldPosition).Flatten()))
+            return true;
+        else
+            return false;
+    }
+
+    public List<Node> AStar(Node src, Node dst)
+    {
+        int maxIterations = 100;
+
         System.Func<Node, Node, float> d = (u, v) => u.worldPosition.Manhattan(v.worldPosition);
-        System.Func<Node, float> h = v => src.worldPosition.Manhattan(v.worldPosition);
+        System.Func<Node, float> h = v => dst.worldPosition.Manhattan(v.worldPosition);
         Mapping<Node> g = new Mapping<Node>(); //defaults to infinity
         Mapping<Node> f = new Mapping<Node>(); //defaults to infinity
 
@@ -133,18 +142,24 @@ public class Graph : MonoBehaviour
         SimplePriorityQueue<Node> pq = new SimplePriorityQueue<Node>();
         pq.Enqueue(src, f[src]);
 
-        while (pq.Count != 0)
+        Debug.Log("[A* PATHFINDING]> START: " + src.worldPosition.ToString() + " TARGET: " + dst.worldPosition.ToString());
+
+        while (maxIterations-- > 0 && pq.Count != 0)
         {
             Node current = pq.Dequeue();
-
-            if (current == dst)
+            Debug.Log("Current node is: " + current.worldPosition.ToString() + " with FCOST: " + f[current] + " GCOST: " + g[current] + " HCOST: " + h(current));
+            
+            // too precise, less precision
+            if (dst.worldPosition == current.worldPosition || h(current) < 0.001)
             {
                 return ReconstructPath(cameFrom, current);
             }
 
             foreach( Node neighbor in GetNeighbors(current))
             {
-                float tentativeGScore = g[neighbor] + d(current, neighbor);
+                Debug.Log("Considering neighbor node: " + neighbor.worldPosition);
+                float tentativeGScore = g[current] + d(current, neighbor);
+                Debug.Log("tentativeGscore: " + tentativeGScore + " gCOST: " + g[neighbor]);
                 if (tentativeGScore < g[neighbor])
                 {
                     cameFrom[neighbor] = current;
@@ -152,7 +167,10 @@ public class Graph : MonoBehaviour
                     f[neighbor] = g[neighbor] + h(neighbor);
 
                     if (!pq.Contains(neighbor))
+                    {
+                        Debug.Log("Enqueuing node: " + neighbor.worldPosition.ToString());
                         pq.Enqueue(neighbor, f[neighbor]);
+                    }
                     else
                         pq.UpdatePriority(neighbor, f[neighbor]);
                 }
@@ -188,8 +206,20 @@ public class Graph : MonoBehaviour
 
     bool CheckIfWalkable(Vector3 worldPosition)
     {
+
+        if (!IsValidPosition(worldPosition))
+            return false;
+
         // Add other collisions here
         Collider[] hitColliders = Physics.OverlapSphere(worldPosition, nodeSeparation/2);
+
+        foreach (Collider c in hitColliders)
+        {
+            // The node where the player is must be available
+            if (c.tag == "EnemyAI")
+                return true;
+        }
+
         if (worldPosition.y <= getHeightTerrain(worldPosition) || hitColliders.Length != 0)
         {
             return false;
@@ -199,18 +229,17 @@ public class Graph : MonoBehaviour
 
     Vector3 GetClosestNodePosition(Vector3 worldPosition)
     {
-        return (worldPosition / nodeSeparation).Round() * nodeSeparation;
+        return (worldPosition/nodeSeparation).Round() * nodeSeparation;
     }
 
-    Node ClosestNode(Vector3 point)
+    public Node GetClosestNode(Vector3 point)
     {
         Vector3 worldPosition = GetClosestNodePosition(point);
-        bool walkable = CheckIfWalkable(worldPosition);
 
         return new Node(worldPosition);
     }
 
-    Vector3 GetChunkIndex(Vector3 worldPosition)
+    public Vector3 GetChunkIndex(Vector3 worldPosition)
     {
         // Since the worldPosition of indexes are the center of the chunk, we need to subtract
         // half of the diameter of that chunk
@@ -231,7 +260,7 @@ public class Graph : MonoBehaviour
         }
         else
         {
-            Debug.LogError("ChunkIndex out of bounds");
+            Debug.LogError("ChunkIndex out of bounds: " + terrainChunkIndex.ToString() + " from worldPosition: " + worldPosition.ToString());
             return null;
         }
     }
