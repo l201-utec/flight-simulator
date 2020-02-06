@@ -8,7 +8,7 @@ public class TerrainChunk {
 	 
 	GameObject meshObject;
 	Vector2 sampleCentre;
-	Bounds bounds;
+	public Bounds bounds;
 
 	MeshRenderer meshRenderer;
 	MeshFilter meshFilter;
@@ -18,7 +18,7 @@ public class TerrainChunk {
 	LODMesh[] lodMeshes;
 	int colliderLODIndex;
 
-	HeightMap heightMap;
+	public HeightMap heightMap;
 	bool heightMapReceived;
 	int previousLODIndex = -1;
 	bool hasSetCollider;
