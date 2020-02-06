@@ -17,6 +17,7 @@ public class Indicators : MonoBehaviour {
     public Text angley;
     public Text anglez;
 
+    public GameObject HealthBar;
     public Text health;
     public Text barrier;
     public Text ammo;
@@ -73,11 +74,16 @@ public class Indicators : MonoBehaviour {
 
             gameObject.SendMessage("Angles");
 
-            int hitCounter = GameObject.Find("AircraftJet").GetComponent<DamageDetection>().collisionCount;
-            health.text = (100 - 33 * hitCounter).ToString("0");
+            float hitCounter = GameObject.Find("AircraftJet").GetComponent<DamageDetection>().collisionCount;
+            HealthBar.transform.localScale = new Vector3(1f, 1f - 0.33f * hitCounter, 1f);
+            health.text = (100 - 33 * (int)hitCounter).ToString("0");
 
             int ammoCounter = GameObject.Find("BulletInstantiator").GetComponent<FireGun>().remainingBullets;
             ammo.text = ammoCounter.ToString("0");
         }
+
+      
+            
+        
     }
 }

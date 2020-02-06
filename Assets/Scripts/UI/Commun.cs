@@ -14,7 +14,7 @@ public class Commun : MonoBehaviour
     public Text angleZ;
 
 
-    SerialPort sp = new SerialPort("COM7", 115200);
+    SerialPort sp = new SerialPort("COM6", 115200);
 
     public void Start()
     {
