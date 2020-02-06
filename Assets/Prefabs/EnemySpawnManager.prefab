@@ -45,7 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapGenerator: {fileID: 0}
   Waves:
-  - EnemiesPerWave: 1
+  - EnemiesPerWave: 8
     Enemy: {fileID: 867754781744163525, guid: 7365a5bcd1cde48edb8297eb9bd14f71, type: 3}
   TimeBetweenEnemies: 0.5
   currentEnemies: []

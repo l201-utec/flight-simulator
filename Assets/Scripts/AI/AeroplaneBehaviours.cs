@@ -23,7 +23,7 @@ public class AeroplaneBehaviours : MonoBehaviour
     float predictionTime = 2f;
 
 
-    private float nextUpdate = 1f;
+    private float nextUpdate = 0.1f;
     public float delay = 1f;
     public int difficulty = 0;
 
@@ -75,13 +75,18 @@ public class AeroplaneBehaviours : MonoBehaviour
 
             // Remove starting position
             int frontTrash = 5;
-            while (frontTrash-- > 0 && path.Count >= 0)
+            while (frontTrash-- > 0 && path.Count >= 2)
                 path.RemoveAt(0);
 
             AlterWaypointCircuitFromPath(path);
         }
         else if (difficulty > 0)
             UpdateLast();
+    }
+
+    void OnDestroy()
+    {
+        Destroy(waypointCircuitManager);
     }
 
     void UpdateLast()
