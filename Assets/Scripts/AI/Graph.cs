@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using UnityEngine.Assertions;
 using Priority_Queue;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public static class Vector3Extensions
 {
@@ -302,7 +305,7 @@ public class Graph : MonoBehaviour
                     .ConvertAll(tc => tc.coord.ToString())
                     .ToArray()));
     }
-
+#if UNITY_EDITOR
     void OnDrawGizmos()
     {
         if (debug && terrainGenerator != null)
@@ -357,4 +360,5 @@ public class Graph : MonoBehaviour
 
 
     }
+#endif
 }
